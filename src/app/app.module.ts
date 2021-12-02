@@ -20,6 +20,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { ArticlesService } from "./services/articles.service";
+import { UserAccountComponent } from './components/user-account/user-account.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { ArticlesService } from "./services/articles.service";
     HeaderComponent,
     ArticlesListComponent,
     ArticleComponent,
-    PopularTagsListComponent
+    PopularTagsListComponent,
+    UserAccountComponent
   ],
   imports: [
     BrowserModule,
