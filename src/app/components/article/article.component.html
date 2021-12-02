@@ -1,0 +1,51 @@
+<mat-card class="wrapper">
+  <img src="../../../assets/avatar.png" class="userAvatar"/>
+
+  <span class="userName">{{article.author}}</span>
+  <span class="date">{{ article.date | date:'longDate' }}</span>
+
+  <button
+    *ngIf="article.likesAmount > 0; else noLikesButton"
+    (click)="increaseLikesAmount()"
+    class="addLikeButton"
+    mat-raised-button
+    color="warn"
+  >
+    <mat-icon class="icon">favorite</mat-icon>
+    {{article.likesAmount}}
+  </button>
+  <ng-template class="addLikeButton" #noLikesButton>
+    <button (click)="increaseLikesAmount()" mat-button color="warn">
+      <mat-icon class="icon">favorite_border</mat-icon>
+      {{article.likesAmount}}
+    </button>
+  </ng-template>
+
+  <mat-chip-list class="tags">
+    <mat-chip
+      *ngFor="let tag of article.tagList"
+      color="primary"
+      selected
+    >
+      {{tag}}
+    </mat-chip>
+  </mat-chip-list>
+
+  <h2 class="articleTitle">{{article.title}}</h2>
+  <section
+    class="articleContent"
+    [ngClass]="{'limitedArticleContentLength': isReadMore, 'fullArticleContentLength': !isReadMore}"
+  >
+    {{article.content}}
+  </section>
+
+  <button
+    (click)="toggleArticleContentLength()"
+    type="button"
+    class="toggleArticleContentLengthButton"
+    mat-button
+    color="primary"
+  >
+    {{ isReadMore ? 'Read more...': 'Read less...' }}
+  </button>
+</mat-card>

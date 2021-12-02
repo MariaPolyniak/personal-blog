@@ -1,0 +1,14 @@
+:host {
+  display: flex;
+  justify-content: space-between;
+  padding: 2rem;
+}
+
+.article {
+  display: block;
+  margin-bottom: 1rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
