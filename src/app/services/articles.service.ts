@@ -30,13 +30,15 @@ export class ArticlesService {
     })
   );
 
-  addArticle(newArticle: Article): void {
-    const id = Date.now();
+  addArticle(articleDetails: Omit<Article, 'id' | 'date' | 'likesAmount'>): void {
+    const article: Article = {
+      ...articleDetails,
+      id: Date.now(),
+      date: Date.now(),
+      likesAmount: 0
+    }
 
-    this.articles.next([...this.articles.value, {
-      ...newArticle,
-      id
-    }]);
+    this.articles.next([...this.articles.value, article]);
   }
 
   updateArticle(articleToUpdate: Article): void {

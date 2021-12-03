@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { DatePipe } from '@angular/common';
 
@@ -18,9 +18,12 @@ import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatChipsModule } from '@angular/material/chips';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 import { ArticlesService } from "./services/articles.service";
 import { UserAccountComponent } from './components/user-account/user-account.component';
+import { CreateArticleComponent } from './components/create-article/create-article.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +32,8 @@ import { UserAccountComponent } from './components/user-account/user-account.com
     ArticlesListComponent,
     ArticleComponent,
     PopularTagsListComponent,
-    UserAccountComponent
+    UserAccountComponent,
+    CreateArticleComponent
   ],
   imports: [
     BrowserModule,
@@ -41,7 +45,10 @@ import { UserAccountComponent } from './components/user-account/user-account.com
     MatCardModule,
     MatGridListModule,
     MatChipsModule,
-    DragDropModule
+    DragDropModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   providers: [ArticlesService, DatePipe],
   bootstrap: [AppComponent]
