@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, map, distinctUntilChanged } from "rxjs";
-import { Article } from "../models/article.model";
-import { ARTICLES } from '../models/articles.model';
+
+import { ArticleModel } from "../models/article.model";
+import { ARTICLES } from '../articles.mock';
 
 @Injectable({
   providedIn: 'root'
@@ -30,8 +31,8 @@ export class ArticlesService {
     })
   );
 
-  addArticle(articleDetails: Omit<Article, 'id' | 'date' | 'likesAmount'>): void {
-    const article: Article = {
+  addArticle(articleDetails: Omit<ArticleModel, 'id' | 'date' | 'likesAmount'>): void {
+    const article: ArticleModel = {
       ...articleDetails,
       id: Date.now(),
       date: Date.now(),
@@ -41,7 +42,7 @@ export class ArticlesService {
     this.articles.next([...this.articles.value, article]);
   }
 
-  updateArticle(articleToUpdate: Article): void {
+  updateArticle(articleToUpdate: ArticleModel): void {
     this.articles.next(this.articles.value.map(article => {
       return article.id === articleToUpdate.id ? articleToUpdate : article;
     }));

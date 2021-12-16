@@ -1,4 +1,4 @@
-export interface Article {
+export interface ArticleModel {
   id: number,
   author: string,
   date: number,
