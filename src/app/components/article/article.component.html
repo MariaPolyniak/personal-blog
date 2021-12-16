@@ -6,16 +6,16 @@
 
   <button
     *ngIf="article.likesAmount > 0; else noLikesButton"
-    (click)="increaseLikesAmount()"
+    (click)="onAddLike()"
     class="addLikeButton"
-    mat-raised-button
+    mat-button
     color="warn"
   >
     <mat-icon class="icon">favorite</mat-icon>
     {{article.likesAmount}}
   </button>
   <ng-template class="addLikeButton" #noLikesButton>
-    <button (click)="increaseLikesAmount()" mat-button color="warn">
+    <button (click)="onAddLike()" mat-button color="warn">
       <mat-icon class="icon">favorite_border</mat-icon>
       {{article.likesAmount}}
     </button>

@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { ArticlesService } from "../../services/articles.service";
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ArticleModel } from "../../models/article.model";
 
 @Component({
   selector: 'app-article',
@@ -7,20 +7,16 @@ import { ArticlesService } from "../../services/articles.service";
   styleUrls: ['./article.component.scss']
 })
 export class ArticleComponent {
-  @Input() article;
+  @Input() article: ArticleModel;
+  @Output() addLike = new EventEmitter<number>();
 
   isReadMore = true;
-
-  constructor(private articlesService: ArticlesService) {}
 
   toggleArticleContentLength() {
     this.isReadMore = !this.isReadMore;
   }
 
-  increaseLikesAmount() {
-    this.articlesService.updateArticle({
-      ...this.article,
-      likesAmount: this.article.likesAmount + 1
-    })
+  onAddLike() {
+    this.addLike.emit(this.article.id);
   }
 }

@@ -51,4 +51,10 @@ export class ArticlesService {
   deleteArticle(articleId: number): void {
     this.articles.next(this.articles.value.filter(article => article.id !== articleId));
   }
+
+  addLike(articleId: number): void {
+    this.articles.next(this.articles.value.map(article => {
+      return article.id === articleId ? {...article, likesAmount: article.likesAmount + 1} : article;
+    }));
+  }
 }

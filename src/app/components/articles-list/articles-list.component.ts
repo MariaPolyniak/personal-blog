@@ -10,4 +10,8 @@ export class ArticlesListComponent {
   articles$ = this.articlesService.articles$;
 
   constructor(private articlesService: ArticlesService) {}
+
+  onAddLike(articleId) {
+    this.articlesService.addLike(articleId);
+  }
 }
