@@ -24,6 +24,7 @@ import { MatInputModule } from '@angular/material/input';
 import { ArticlesService } from "./services/articles.service";
 import { UserAccountComponent } from './components/user-account/user-account.component';
 import { CreateArticleComponent } from './components/create-article/create-article.component';
+import { HomeComponent } from './components/home/home.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { CreateArticleComponent } from './components/create-article/create-artic
     ArticleComponent,
     PopularTagsListComponent,
     UserAccountComponent,
-    CreateArticleComponent
+    CreateArticleComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
