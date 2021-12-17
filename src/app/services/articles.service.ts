@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, map, distinctUntilChanged } from "rxjs";
+import { HttpClient } from '@angular/common/http'
 
 import { ArticleModel } from "../models/article.model";
-import { ARTICLES } from '../articles.mock';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ArticlesService {
-  private articles = new BehaviorSubject(ARTICLES);
+  private articles = new BehaviorSubject([]);
 
   articles$ = this.articles.asObservable();
 
@@ -30,6 +30,12 @@ export class ArticlesService {
         .map(([name]) => name);
     })
   );
+
+  constructor(private http: HttpClient) {}
+
+  getArticles() {
+    return this.http.get<ArticleModel[]>('/api/posts');
+  }
 
   addArticle(articleDetails: Omit<ArticleModel, 'id' | 'date' | 'likesAmount'>): void {
     const article: ArticleModel = {
