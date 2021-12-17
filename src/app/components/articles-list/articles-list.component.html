@@ -1,0 +1,9 @@
+<app-article
+  (addLike)="onAddLike($event)"
+  *ngFor="let article of articles$ | async"
+  [article]="article"
+  class="article"
+></app-article>
+
+
+
