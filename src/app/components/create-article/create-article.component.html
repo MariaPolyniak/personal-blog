@@ -5,27 +5,21 @@
       <mat-label>Author</mat-label>
       <input matInput formControlName="author">
 
-      <mat-error *ngIf="hasError('author', 'required')">Author name is required</mat-error>
-      <mat-error *ngIf="hasError('author', 'minlength')">Author's name can not be less than 5 characters long</mat-error>
-      <mat-error *ngIf="hasError('author', 'maxlength')">Author's name can not be more than 15 characters long</mat-error>
+      <mat-error *ngIf="hasErrors('author')">{{ getErrorMessage('author') }}</mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Title</mat-label>
       <input matInput formControlName="title">
 
-      <mat-error *ngIf="hasError('title', 'required')">Article title is required</mat-error>
-      <mat-error *ngIf="hasError('title', 'minlength')">Article title can not be less than 5 characters long</mat-error>
-      <mat-error *ngIf="hasError('title', 'maxlength')">Article title can not be more than 25 characters long</mat-error>
+      <mat-error *ngIf="hasErrors('title')">{{ getErrorMessage('title') }}</mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Content</mat-label>
       <textarea matInput formControlName="content"></textarea>
 
-      <mat-error *ngIf="hasError('content', 'required')">Article content is required</mat-error>
-      <mat-error *ngIf="hasError('content', 'minlength')">Article content can not be less than 10 characters long</mat-error>
-      <mat-error *ngIf="hasError('content', 'maxlength')">Article content can not be more than 1500 characters long</mat-error>
+      <mat-error *ngIf="hasErrors('content')">{{ getErrorMessage('content') }}</mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="fill">

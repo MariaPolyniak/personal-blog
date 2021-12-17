@@ -24,6 +24,24 @@ export class CreateArticleComponent {
   });
   tagListControl = this.newArticleForm.get('tagList');
 
+  errorMap = {
+    author: {
+      required: 'Author name is required',
+      minlength: 'Author\'s name can not be less than 5 characters long',
+      maxlength: 'Author\'s name can not be more than 15 characters long'
+    },
+    title: {
+      required: 'Article title is required',
+      minlength: 'Article title can not be less than 5 characters long',
+      maxlength: 'Article title can not be more than 25 characters long'
+    },
+    content: {
+      required: 'Article content is required',
+      minlength: 'Article content can not be less than 10 characters long',
+      maxlength: 'Author\'s name can not be more than 15 characters long'
+    }
+  }
+
   constructor(private fb: FormBuilder, private articlesService: ArticlesService, private router: Router) {}
 
   addTag(event: MatChipInputEvent): void {
@@ -40,8 +58,25 @@ export class CreateArticleComponent {
     this.tagListControl.setValue(this.tagListControl.value.filter(existingTag => existingTag !== tag));
   }
 
-  hasError = (controlName: string, errorName: string) =>{
-    return this.newArticleForm.controls[controlName].hasError(errorName);
+  hasErrors(controlName: string): boolean {
+    return !!this.newArticleForm.get(controlName).errors;
+  }
+
+  getErrorMessage(controlName: string): string {
+    const errorKeys = this.getErrorKeys(controlName);
+
+    if (!errorKeys.length) {
+      return;
+    }
+
+    return this.errorMap[controlName][errorKeys[0]];
+  }
+
+  getErrorKeys(controlName: string): string[] {
+    const control = this.newArticleForm.get(controlName);
+    const errorKeys = Object.keys(control.errors);
+
+    return errorKeys;
   }
 
   onFormSubmit() {
