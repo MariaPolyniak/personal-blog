@@ -1,12 +1,20 @@
 const express = require('express');
-
-const http = require('http');
+const bodyParser = require('body-parser');
+const dotenv = require('dotenv');
 const path = require('path');
 
+const db = require('./db');
 const apiRouter = require('./routes/api.router');
+
+dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3001;
+
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+app.use(bodyParser.json());
 
 app.use('/api', apiRouter);
 
@@ -20,6 +28,6 @@ app.use((err, req, res, next) => {
   res.status(500).send(`Error occurred: ${err.message}`)
 });
 
-const server = http.createServer(app);
+app.listen(port, () => console.log(`App running on: http://localhost:${port}`));
 
-server.listen(port, () => console.log(`App running on: http://localhost:${port}`));
+db.setupConnection();
