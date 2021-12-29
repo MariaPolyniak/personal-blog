@@ -18,10 +18,10 @@ app.use(bodyParser.json());
 
 app.use('/api', apiRouter);
 
-app.use(express.static(path.join(__dirname, 'dist/personal-blog')));
+app.use(express.static(path.join(__dirname, '..', '/dist/personal-blog')));
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist/personal-blog/index.html'));
+  res.sendFile(path.join(__dirname, '..', '/dist/personal-blog/index.html'));
 });
 
 app.use((err, req, res, next) => {
