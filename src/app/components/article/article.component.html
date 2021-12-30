@@ -1,33 +1,33 @@
 <mat-card class="wrapper">
   <img src="../../../assets/avatar.png" class="userAvatar" alt="user avatar"/>
 
-  <span class="userName">{{article.author}}</span>
+  <span class="userName">test_user</span>
   <span class="date">{{ article.date | date:'longDate' }}</span>
 
   <button
-    *ngIf="article.likesAmount > 0; else noLikesButton"
+    *ngIf="article.likes > 0; else noLikesButton"
     (click)="onAddLike()"
     class="addLikeButton"
     mat-button
     color="warn"
   >
     <mat-icon class="icon">favorite</mat-icon>
-    {{article.likesAmount}}
+    {{article.likes}}
   </button>
   <ng-template class="addLikeButton" #noLikesButton>
     <button (click)="onAddLike()" mat-button color="warn">
       <mat-icon class="icon">favorite_border</mat-icon>
-      {{article.likesAmount}}
+      {{article.likes}}
     </button>
   </ng-template>
 
   <mat-chip-list class="tags">
     <mat-chip
-      *ngFor="let tag of article.tagList"
+      *ngFor="let tag of article.tags"
       color="primary"
       selected
     >
-      {{tag}}
+      {{tag.name}}
     </mat-chip>
   </mat-chip-list>
 
