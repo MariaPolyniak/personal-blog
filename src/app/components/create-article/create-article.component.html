@@ -2,13 +2,6 @@
   <h2>Create new article</h2>
   <form [formGroup]="newArticleForm" (ngSubmit)="onFormSubmit()" id="form">
     <mat-form-field appearance="fill">
-      <mat-label>Author</mat-label>
-      <input matInput formControlName="author">
-
-      <mat-error *ngIf="hasErrors('author')">{{ getErrorMessage('author') }}</mat-error>
-    </mat-form-field>
-
-    <mat-form-field appearance="fill">
       <mat-label>Title</mat-label>
       <input matInput formControlName="title">
 

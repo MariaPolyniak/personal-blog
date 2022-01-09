@@ -21,6 +21,8 @@ import { MatChipsModule } from '@angular/material/chips';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { LoadingBarModule } from '@ngx-loading-bar/core';
+import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
 
 import { ArticlesService } from "./services/articles.service";
 import { UserAccountComponent } from './components/user-account/user-account.component';
@@ -52,7 +54,9 @@ import { HomeComponent } from './components/home/home.component';
     DragDropModule,
     ReactiveFormsModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    LoadingBarModule,
+    LoadingBarHttpClientModule
   ],
   providers: [ArticlesService, DatePipe],
   bootstrap: [AppComponent]

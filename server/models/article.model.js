@@ -5,7 +5,7 @@ const UserModel = require("./user.model");
 
 const Schema = mongoose.Schema;
 
-const postSchema = new Schema({
+const articleSchema = new Schema({
   author: { type: Schema.Types.ObjectId, ref: UserModel.modelName, required: true },
   title: { type: String, required: true },
   content: { type: String, required: true },
@@ -14,7 +14,7 @@ const postSchema = new Schema({
   likes: [{ type: Schema.Types.ObjectId, ref: 'Like' }],
   tags: [{ type: Schema.Types.ObjectId, ref: TagModel.modelName }]
 }, {
-  collection : 'posts',
+  collection : 'articles',
   versionKey: false,
   toJSON: {
     transform: (doc, ret) => {
@@ -25,6 +25,6 @@ const postSchema = new Schema({
   }
 });
 
-const PostModel = mongoose.model('Post', postSchema);
+const ArticleModel = mongoose.model('Article', articleSchema);
 
-module.exports = PostModel;
+module.exports = ArticleModel;

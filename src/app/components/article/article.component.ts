@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+
 import { ArticleModel } from "../../models/article.model";
 
 @Component({
@@ -8,7 +9,7 @@ import { ArticleModel } from "../../models/article.model";
 })
 export class ArticleComponent {
   @Input() article: ArticleModel;
-  @Output() addLike = new EventEmitter<number>();
+  @Output() addLike = new EventEmitter<string>();
 
   isReadMore = true;
 
@@ -17,6 +18,6 @@ export class ArticleComponent {
   }
 
   onAddLike() {
-    this.addLike.emit(this.article.id);
+    this.addLike.emit(this.article._id);
   }
 }
