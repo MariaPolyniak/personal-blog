@@ -1,6 +1,4 @@
-import { ArticleModel } from "./models/article.model";
-
-export const ARTICLES: ArticleModel[] = [
+[
   {
     "id": 0,
     "author": "Gerard Sans",

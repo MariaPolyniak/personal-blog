@@ -7,7 +7,7 @@ import { ArticlesService } from "../../services/articles.service";
   styleUrls: ['./articles-list.component.scss'],
 })
 export class ArticlesListComponent {
-  articles$ = this.articlesService.articles$;
+  articles$ = this.articlesService.getArticles();
 
   constructor(private articlesService: ArticlesService) {}
 
