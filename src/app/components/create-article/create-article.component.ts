@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { MatChipInputEvent } from '@angular/material/chips';
 
 import { ArticlesService } from "../../services/articles.service";
+import { UserService } from "../../services/user.service";
 
 @Component({
   selector: 'app-create-article',
@@ -17,19 +18,13 @@ export class CreateArticleComponent {
   tagCtrl = new FormControl();
 
   newArticleForm = this.fb.group({
-    author: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(15)]],
     title: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(25)]],
     content: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(1500)]],
-    tagList: [['angular']]
+    tags: [[]]
   });
-  tagListControl = this.newArticleForm.get('tagList');
+  tagListControl = this.newArticleForm.get('tags');
 
   errorMap = {
-    author: {
-      required: 'Author name is required',
-      minlength: 'Author\'s name can not be less than 5 characters long',
-      maxlength: 'Author\'s name can not be more than 15 characters long'
-    },
     title: {
       required: 'Article title is required',
       minlength: 'Article title can not be less than 5 characters long',
@@ -42,7 +37,12 @@ export class CreateArticleComponent {
     }
   }
 
-  constructor(private fb: FormBuilder, private articlesService: ArticlesService, private router: Router) {}
+  constructor(
+    private fb: FormBuilder,
+    private articlesService: ArticlesService,
+    private userService: UserService,
+    private router: Router
+  ) {}
 
   addTag(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
@@ -80,7 +80,8 @@ export class CreateArticleComponent {
   }
 
   onFormSubmit() {
-    this.articlesService.addArticle(this.newArticleForm.value);
-    this.router.navigate(['home']);
+    this.articlesService.addArticle(this.newArticleForm.value).subscribe(() => {
+      this.router.navigate(['home']);
+    });
   }
 }

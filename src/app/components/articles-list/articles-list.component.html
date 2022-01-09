@@ -1,6 +1,6 @@
 <app-article
-  (addLike)="onAddLike($event)"
-  *ngFor="let article of articles$ | async"
+  (addLike)="onAddLike(articles, $event)"
+  *ngFor="let article of articles$ | async as articles"
   [article]="article"
   class="article"
 ></app-article>
