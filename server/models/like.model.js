@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const likeSchema = new Schema({
   user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-  post: { type: Schema.Types.ObjectId, ref: 'Article', required: true },
+  article: { type: Schema.Types.ObjectId, ref: 'Article', required: true },
 }, {
   collection : 'likes',
   versionKey: false
