@@ -1,16 +1,31 @@
 const ArticleModel = require('../models/article.model');
+const LikeModel = require('../models/like.model');
 
 exports.getArticles = async (req, res) => {
-  try {
-    let articlesQuery = ArticleModel.find();
+  const match = {};
+  const sort = {};
 
+  const limit = req.query.limit || 10;
+  const skip = req.query.skip || 0;
+
+  try {
     if(req.query.tag_id) {
-      articlesQuery = articlesQuery.where('tags').in(req.query.tag_id);
+      match.tags = { $in: [req.query.tag_id] }
     }
 
-    const articles = await articlesQuery.populate('tags');
+    if(req.query.sortBy){
+      const [field, order] =  req.query.sortBy.split(':');
+      sort[field] = order === 'desc' ? -1 : 1;
+    }
 
-    res.json(articles);
+    const articles = await ArticleModel
+      .find(match)
+      .limit(limit)
+      .skip(limit * skip)
+      .sort(sort)
+      .populate('tags');
+
+    res.send(articles);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
@@ -41,9 +56,10 @@ exports.getArticle = async (req, res) => {
   }
 }
 
-exports.createNewArticle = async (req, res) => {
+exports.createArticle = async (req, res) => {
   const userId = req.headers['user-id'];
-  const newArticle = new ArticleModel({
+
+  const article = new ArticleModel({
     author: userId,
     title: req.body.title,
     content: req.body.content,
@@ -51,9 +67,9 @@ exports.createNewArticle = async (req, res) => {
   });
 
   try {
-    await newArticle.save();
+    await article.save();
 
-    res.status(201).json(newArticle);
+    res.status(201).json(article);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
@@ -67,7 +83,10 @@ exports.updateArticle = async (req, res) => {
       return res.status(404).json({ message: "No data found" });
     }
 
-    const updatedArticle = await ArticleModel.updateOne({ _id: req.params.id }, { $set: req.body });
+    const updatedArticle = await ArticleModel.updateOne(
+      { _id: req.params.id },
+      { $set: req.body }
+    );
 
     res.status(200).json(updatedArticle);
   } catch (err) {
@@ -84,17 +103,23 @@ exports.likeArticle = async (req, res) => {
       return res.status(404).json({ message: "No data found" });
     }
 
-    if(article.likes.includes(userId)) {
+    const like = await LikeModel.findOne({
+      user: userId,
+      article: article._id
+    })
+
+    if (like) {
       return res.status(403).json({ message: 'You have already liked this article' });
     }
 
-    await ArticleModel.updateOne(
-    { _id: req.params.id },
-    {
-      $push: {
-        likes: userId
-      }
+    const newLike = new LikeModel({
+      user: userId,
+      article: article._id
     });
+
+    article.likes.push(newLike);
+
+    await Promise.all([newLike.save(), article.save()]);
 
     res.status(200).json({ success: true });
   } catch (err) {
