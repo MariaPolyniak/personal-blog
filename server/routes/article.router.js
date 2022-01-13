@@ -1,21 +1,22 @@
 const express = require('express');
 
+const auth = require('../middlewares/auth.middleware');
 const postController = require('../controllers/article.controller');
 
 const articleRouter = express.Router();
 
-articleRouter.post('/', postController.createNewArticle);
+articleRouter.post('/', auth, postController.createNewArticle);
 
-articleRouter.get('/', postController.getArticles);
+articleRouter.get('/', auth, postController.getArticles);
 
-articleRouter.get('/popular-articles', postController.getPopularArticles);
+articleRouter.get('/popular-articles', auth, postController.getPopularArticles);
 
-articleRouter.get('/:id', postController.getArticle);
+articleRouter.get('/:id', auth, postController.getArticle);
 
-articleRouter.patch('/:id', postController.updateArticle);
+articleRouter.patch('/:id', auth, postController.updateArticle);
 
-articleRouter.post('/:id/like', postController.likeArticle);
+articleRouter.post('/:id/like', auth, postController.likeArticle);
 
-articleRouter.delete('/:id', postController.deleteArticle);
+articleRouter.delete('/:id', auth, postController.deleteArticle);
 
 module.exports = articleRouter;
