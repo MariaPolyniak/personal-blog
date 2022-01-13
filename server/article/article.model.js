@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
-const TagModel = require("./tag.model");
-const UserModel = require("./user.model");
+const TagModel = require("../tag/tag.model");
+const UserModel = require("../user/user.model");
 
 const Schema = mongoose.Schema;
 

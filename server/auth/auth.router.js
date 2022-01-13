@@ -1,7 +1,7 @@
 const express = require('express');
 
-const hash = require('../middlewares/hash.middleware');
-const authController = require('../controllers/auth.controller');
+const hash = require('./hash.middleware');
+const authController = require('./auth.controller');
 
 const authRouter = express.Router();
 

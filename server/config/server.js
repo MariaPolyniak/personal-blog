@@ -2,8 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 
-const db = require('./db');
-const apiRouter = require('./routes/api.router');
+const db = require('../scripts/db');
+const apiRouter = require('./router');
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -15,10 +15,10 @@ app.use(bodyParser.json());
 
 app.use('/api', apiRouter);
 
-app.use(express.static(path.join(__dirname, '..', '/dist/personal-blog')));
+app.use(express.static(path.join(__dirname, '..', '..', '/dist/personal-blog')));
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', '/dist/personal-blog/index.html'));
+  res.sendFile(path.join(__dirname, '..', '..', '/dist/personal-blog/index.html'));
 });
 
 app.use((err, req, res, next) => {

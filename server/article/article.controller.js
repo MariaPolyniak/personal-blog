@@ -1,4 +1,4 @@
-const ArticleModel = require('../models/article.model');
+const ArticleModel = require('./article.model');
 
 exports.getArticles = async (req, res) => {
   try {

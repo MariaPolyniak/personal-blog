@@ -1,6 +1,6 @@
 {
   "name": "personal-blog",
-  "main": "server/server.js",
+  "main": "server/config/server.js",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",

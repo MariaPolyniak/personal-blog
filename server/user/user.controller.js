@@ -1,6 +1,6 @@
-const UserModel = require('../models/user.model');
+const UserModel = require('./user.model');
 
-const normalizeUserResponse = require("../helpers/user.helper");
+const normalizeUserResponse = require("./user.helper");
 
 exports.getCurrentUser = async (req, res) => {
   const user = await UserModel.findById(req.user.user_id);

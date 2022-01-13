@@ -1,9 +1,9 @@
 const bcrypt = require('bcrypt');
 
-const UserModel = require('../models/user.model');
+const UserModel = require('../user/user.model');
 
-const createToken = require('../helpers/token.helper');
-const normalizeUserResponse = require("../helpers/user.helper");
+const createToken = require('./token.helper');
+const normalizeUserResponse = require("../user/user.helper");
 
 exports.signUp = async(req, res) => {
   const {
