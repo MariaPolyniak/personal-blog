@@ -1,6 +1,9 @@
 export interface ArticleModel {
   _id: string,
-  author: string,
+  author: {
+    firstName: string;
+    lastName: string;
+  },
   date: number,
   title: string,
   content: string,

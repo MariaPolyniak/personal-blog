@@ -1,17 +1,5 @@
-.spacer {
-  flex: 1 1 auto;
-}
-
-nav {
-  & a {
-    display: inline-flex;
-    align-items: center;
-
-    text-decoration: none;
-    color: white;
-
-    &:not(:last-child) {
-      padding-right: 1rem;
-    }
+div {
+  & button:not(:last-child) {
+    margin-right: 1rem;
   }
 }

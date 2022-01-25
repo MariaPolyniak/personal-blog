@@ -2,9 +2,13 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
+import { FormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
+
+import { AuthInterceptor } from '../app/helpers/auth.interceptor';
+import { AuthGuard } from "./guards/auth.guard";
 
 import { AppComponent } from './components/app.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -21,13 +25,19 @@ import { MatChipsModule } from '@angular/material/chips';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatTableModule } from '@angular/material/table';
+
 import { LoadingBarModule } from '@ngx-loading-bar/core';
 import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { ArticlesService } from "./services/articles.service";
 import { UserAccountComponent } from './components/user-account/user-account.component';
 import { CreateArticleComponent } from './components/create-article/create-article.component';
 import { HomeComponent } from './components/home/home.component';
+import { SigninComponent } from './components/signin/signin.component';
+import { SignupComponent } from './components/signup/signup.component';
 
 @NgModule({
   declarations: [
@@ -38,13 +48,16 @@ import { HomeComponent } from './components/home/home.component';
     PopularTagsListComponent,
     UserAccountComponent,
     CreateArticleComponent,
-    HomeComponent
+    HomeComponent,
+    SigninComponent,
+    SignupComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    FormsModule,
     MatToolbarModule,
     MatIconModule,
     MatButtonModule,
@@ -55,10 +68,13 @@ import { HomeComponent } from './components/home/home.component';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
+    MatMenuModule,
+    MatTableModule,
     LoadingBarModule,
-    LoadingBarHttpClientModule
+    LoadingBarHttpClientModule,
+    FlexLayoutModule
   ],
-  providers: [ArticlesService, DatePipe],
+  providers: [ArticlesService, DatePipe, AuthGuard, { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
