@@ -1,6 +1,41 @@
-const ArticleModel = require('../models/article.model');
-const LikeModel = require('../models/like.model');
-const ArticleModel = require('./article.model');
+const fs = require('fs');
+const path = require('path');
+
+const { IMAGE_STORAGE_DIRECTORY } = require('../image-storage/image.constants');
+
+const articleRepository = require('./article.repository');
+const tagRepository = require('../tag/tag.repository');
+const likeRepository = require('../like/like.repository');
+
+const { normalizeTags } = require('../tag/tag.helper');
+
+exports.createArticle = async (req, res) => {
+  const userId = req.user.user_id;
+  let { title, content, tags } = req.body;
+  const avatarId = req.file?.filename;
+
+  tags = normalizeTags(tags);
+
+  try {
+    const article = await articleRepository.insertArticle(userId, title, content, tags, avatarId);
+
+    await tagRepository.insertOrUpdateTags(tags, article._id);
+
+    res.status(201).json(article);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+}
+
+exports.getArticle = async(req, res) => {
+  try {
+    const article = await articleRepository.findArticleById(req.params.id);
+
+    res.json(article);
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
+}
 
 exports.getArticles = async (req, res) => {
   const match = {};
@@ -10,8 +45,10 @@ exports.getArticles = async (req, res) => {
   const skip = req.query.skip || 0;
 
   try {
-    if(req.query.tag_id) {
-      match.tags = { $in: [req.query.tag_id] }
+    const userId = req.user.user_id;
+
+    if(req.query.tag_name) {
+      match.tags = { $in: [req.query.tag_name] }
     }
 
     if(req.query.sortBy){
@@ -19,28 +56,7 @@ exports.getArticles = async (req, res) => {
       sort[field] = order === 'desc' ? -1 : 1;
     }
 
-    const articles = await ArticleModel
-      .find(match)
-      .limit(limit)
-      .skip(limit * skip)
-      .sort(sort)
-      .populate('tags');
-
-    res.send(articles);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-}
-
-exports.getPopularArticles = async (req, res) => {
-  try {
-    const articles = await ArticleModel.aggregate([
-      { $unwind: "$likes" },
-      { $group: { _id:'$_id', doc: { $first:"$$ROOT" }, likesAmount: { $sum:1 } } },
-      { $replaceRoot: { newRoot:"$doc" } },
-      { $sort : { likesAmount: -1 } },
-      { $limit: 10 }
-    ]);
+    const articles = await articleRepository.findArticles(match, limit, skip, sort, userId);
 
     res.json(articles);
   } catch (err) {
@@ -48,48 +64,41 @@ exports.getPopularArticles = async (req, res) => {
   }
 }
 
-exports.getArticle = async (req, res) => {
+exports.updateArticle = async(req, res) => {
   try {
-    const article = await ArticleModel.findById(req.params.id);
-    res.json(article);
-  } catch (err) {
-    res.status(404).json({ message: err.message });
-  }
-}
+    let { title, content, tags } = req.body;
+    tags = normalizeTags(tags);
+    const newPictureId = req.file?.filename;
 
-exports.createArticle = async (req, res) => {
-  const userId = req.headers['user-id'];
+    if(newPictureId) {
+      req.body.pictureId = newPictureId;
+    }
 
-  const article = new ArticleModel({
-    author: userId,
-    title: req.body.title,
-    content: req.body.content,
-    tags: req.body.tags
-  });
-
-  try {
-    await article.save();
-
-    res.status(201).json(article);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-}
-
-exports.updateArticle = async (req, res) => {
-  try {
-    const article = await ArticleModel.findById(req.params.id);
+    const article = await articleRepository.findArticleById(req.params.id);
 
     if(!article) {
       return res.status(404).json({ message: "No data found" });
     }
 
-    const updatedArticle = await ArticleModel.updateOne(
-      { _id: req.params.id },
-      { $set: req.body }
-    );
+    if(article.pictureId && newPictureId) {
+      fs.unlink(path.resolve(IMAGE_STORAGE_DIRECTORY, article.pictureId), err => {
+        if (err) {
+          console.log(`Error occurred: ${err}`)
+        }
+      })
+    }
 
-    res.status(200).json(updatedArticle);
+    await tagRepository.insertOrUpdateTags(tags, article._id);
+
+    await tagRepository.deleteArticleForMissingTags(tags, article._id);
+
+    await tagRepository.deleteTagsWithoutArticles();
+
+    await articleRepository.updateArticle(req.params.id, { title, content, tags });
+
+    const updatedArticle = await articleRepository.addLikesAmountAndAuthorInformation(req.params.id);
+
+    res.status(200).json(updatedArticle[0]);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
@@ -97,30 +106,47 @@ exports.updateArticle = async (req, res) => {
 
 exports.likeArticle = async (req, res) => {
   try {
-    const userId = req.headers['user-id'];
-    const article = await ArticleModel.findById(req.params.id);
+    const userId = req.user.user_id;
+
+    const article = await articleRepository.findArticleById(req.params.id);
 
     if(!article) {
       return res.status(404).json({ message: "No data found" });
     }
 
-    const like = await LikeModel.findOne({
-      user: userId,
-      article: article._id
-    })
+    const like = await likeRepository.findLike(userId, article._id);
 
     if (like) {
       return res.status(403).json({ message: 'You have already liked this article' });
     }
 
-    const newLike = new LikeModel({
-      user: userId,
-      article: article._id
-    });
+    await likeRepository.insertLike(userId, article._id);
 
-    article.likes.push(newLike);
+    await articleRepository.addLike(article, userId);
 
-    await Promise.all([newLike.save(), article.save()]);
+    res.status(200).json({ success: true });
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+}
+
+exports.dislikeArticle = async (req, res) => {
+  try {
+    const userId = req.user.user_id;
+
+    const article = await articleRepository.findArticleById(req.params.id);
+
+    if(!article) {
+      return res.status(404).json({ message: "No data found" });
+    }
+
+    const like = await likeRepository.findLike(userId, article._id);
+
+    if(like) {
+      await likeRepository.deleteLike(userId, article._id);
+    }
+
+    await articleRepository.deleteLike(article._id, userId);
 
     res.status(200).json({ success: true });
   } catch (err) {
@@ -130,13 +156,17 @@ exports.likeArticle = async (req, res) => {
 
 exports.deleteArticle = async (req, res) => {
   try {
-    const article = await ArticleModel.findById(req.params.id);
+    const article = await articleRepository.findArticleById(req.params.id);
 
     if(!article) {
       return res.status(404).json({ message: "No data found" });
     }
 
-    const deletedArticle = await ArticleModel.deleteOne({ _id: req.params.id });
+    await tagRepository.deleteArticleForAllRelatedTags(req.params.id);
+
+    await tagRepository.deleteTagsWithoutArticles();
+
+    const deletedArticle = await articleRepository.deleteArticleById(req.params.id);
 
     res.status(200).json(deletedArticle);
   } catch (err) {

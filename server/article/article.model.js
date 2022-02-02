@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-const TagModel = require("../tag/tag.model");
 const UserModel = require("../user/user.model");
 
 const Schema = mongoose.Schema;
@@ -10,19 +9,13 @@ const articleSchema = new Schema({
   title: { type: String, required: true },
   content: { type: String, required: true },
   date: { type: Date, default: Date.now },
+  pictureId: { type: String, required: false },
   comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
   likes: [{ type: Schema.Types.ObjectId, ref: 'Like' }],
-  tags: [{ type: Schema.Types.ObjectId, ref: TagModel.modelName }]
+  tags: [{ type: String }]
 }, {
   collection : 'articles',
-  versionKey: false,
-  toJSON: {
-    transform: (doc, ret) => {
-      ret.likes = ret.likes.length;
-
-      return ret;
-    }
-  }
+  versionKey: false
 });
 
 const ArticleModel = mongoose.model('Article', articleSchema);

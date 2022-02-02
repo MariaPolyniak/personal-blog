@@ -1,9 +1,11 @@
+const path = require('path');
+
 const express = require('express');
 const bodyParser = require('body-parser');
-const path = require('path');
 
 const db = require('../scripts/db');
 const apiRouter = require('./router');
+const imageRouter = require("../image-storage/image.router");
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -14,6 +16,7 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 app.use('/api', apiRouter);
+app.use('/images', imageRouter);
 
 app.use(express.static(path.join(__dirname, '..', '..', '/dist/personal-blog')));
 

@@ -1,14 +1,12 @@
 const express = require('express');
 
-const commentController = require('../controllers/comment.controller');
+const commentController = require('./comment.controller');
 
 const commentRouter = express.Router();
 
 commentRouter.post('/', commentController.createComment);
 
-commentRouter.get('/:id', commentController.getComment);
-
-commentRouter.patch('/:id', commentController.updateComment);
+commentRouter.get('/', commentController.getComments);
 
 commentRouter.delete('/:id', commentController.deleteComment);
 

@@ -7,7 +7,7 @@ exports.setupConnection = () => {
     useUnifiedTopology: true
   };
 
-  mongoose.connect(process.env.MONGODB_URL, OPTIONS, err => {
+  mongoose.connect(process.env.DB_URL, OPTIONS, err => {
     if (err) {
       console.log('Error in DB connection: ' + err);
     } else {

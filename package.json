@@ -26,11 +26,13 @@
     "@ngx-loading-bar/http-client": "^6.0.0",
     "bcrypt": "^5.0.1",
     "body-parser": "^1.19.1",
+    "date-fns": "^2.28.0",
     "dotenv": "^10.0.0",
     "express": "^4.17.2",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^4.2.2",
     "mongoose": "^6.1.4",
+    "multer": "^1.4.4",
     "rxjs": "~7.4.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
