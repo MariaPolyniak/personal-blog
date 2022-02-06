@@ -1,0 +1,33 @@
+@mixin center {
+  display: flex;
+  align-items: center;
+}
+
+@mixin text-wide {
+  letter-spacing: 2px;
+}
+
+@mixin remark {
+  @include text-wide;
+
+  color: gray;
+}
+
+@mixin scrollbar {
+  overflow: auto;
+
+  &::-webkit-scrollbar {
+    width: 7px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: #95BBDF;
+    border-radius: 5px;
+    padding-left: 1rem;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    box-shadow: inset 0 0 6px #3F51B5;
+    border-radius: 5px;
+  }
+}

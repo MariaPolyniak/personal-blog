@@ -1,0 +1,30 @@
+@import "../../utils/mixins.scss";
+
+mat-card {
+  @include center;
+  flex-direction: column;
+
+  position: sticky;
+  top: calc(2rem + 65px);
+
+  min-width: 20vw;
+
+  background-color: #95BBDF;
+}
+
+.header {
+  @include center;
+
+  margin-bottom: 1rem;
+
+  h2 {
+    @include text-wide;
+    font-weight: 500;
+
+    margin: 0;
+  }
+
+  mat-icon {
+    margin-left: 0.5rem;
+  }
+}

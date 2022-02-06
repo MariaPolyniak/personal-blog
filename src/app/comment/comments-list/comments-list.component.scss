@@ -1,0 +1,46 @@
+@import "../../../utils/mixins";
+
+:host {
+  display: block;
+  overflow: auto;
+  height: 40vh;
+}
+
+mat-card {
+  display: block;
+  margin-bottom: 1rem;
+  margin-right: 1rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+
+  h3 {
+    @include text-wide;
+    margin: 0;
+  }
+
+  p {
+    @include remark;
+    font-size: 0.75rem;
+    margin: 0;
+  }
+
+  mat-icon {
+    color: gray;
+    cursor: pointer;
+  }
+}
+
+mat-card-content {
+  @include scrollbar;
+  max-height: 2.5rem;
+
+  margin-top: 0.5rem;
+}
+

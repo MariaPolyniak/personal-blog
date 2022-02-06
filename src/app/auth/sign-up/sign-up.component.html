@@ -1,0 +1,77 @@
+<mat-card class="container">
+
+  <mat-card-content>
+
+    <form [formGroup]="signUpForm" (ngSubmit)="onFormSubmit()">
+
+      <h2>Sign Up</h2>
+
+      <div class="remark--text">
+        Already registered? <a routerLink="/sign-in">Sign in here!</a>
+      </div>
+
+      <mat-error *ngIf="!areDataValid">
+        Please enter valid data
+      </mat-error>
+
+      <mat-form-field appearance="fill">
+        <mat-label>First name</mat-label>
+
+        <input matInput formControlName="firstName" required>
+
+        <mat-error>
+          Please provide a valid first name
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Last name</mat-label>
+
+        <input matInput formControlName="lastName" required>
+
+        <mat-error>
+          Please provide a valid last name
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Email</mat-label>
+
+        <input matInput placeholder="Email" formControlName="login" required>
+
+        <mat-error>
+          Please provide a valid email address
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Password</mat-label>
+
+        <input matInput type="password" placeholder="Password" formControlName="password" required>
+
+        <mat-error>
+          Please provide a valid password
+        </mat-error>
+      </mat-form-field>
+
+      <div *ngIf="signUpForm.get('avatar') as avatarControl" class="add-avatar-button">
+        <input type="file" hidden #fileInput (change)="onFileSelected($event)">
+
+        <button type="button" mat-stroked-button (click)="fileInput.click()">Select avatar</button>
+
+        <div *ngIf="avatarControl.value" class="remark">
+          <span class="remark--text">
+            Selected file: {{ avatarControl.value.name }}
+          </span>
+          <mat-icon (click)="onFileRemoved(fileInput)" class="remark--icon">clear</mat-icon>
+        </div>
+      </div>
+
+      <button mat-raised-button color="primary" [disabled]="!signUpForm.valid">Sign Up</button>
+
+    </form>
+
+  </mat-card-content>
+
+</mat-card>
+

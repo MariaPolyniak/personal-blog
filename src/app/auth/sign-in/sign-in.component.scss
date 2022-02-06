@@ -1,0 +1,20 @@
+@import "../../../utils/mixins";
+
+.container {
+  max-width: 400px;
+  margin: calc(2rem + 65px) auto 0;
+}
+
+mat-form-field {
+  display: block;
+
+  &:first-of-type {
+    margin-top: 0.5rem;
+  }
+}
+
+.remark--text {
+  @include remark;
+
+  font-size: 0.75rem;
+}

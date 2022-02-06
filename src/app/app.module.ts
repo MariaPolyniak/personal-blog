@@ -1,58 +1,39 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ReactiveFormsModule } from '@angular/forms';
+import {ErrorHandler, NgModule} from '@angular/core';
+
 import { AppRoutingModule } from './app-routing.module';
-import { DatePipe } from '@angular/common';
 
-import { AppComponent } from './components/app.component';
-import { HeaderComponent } from './components/header/header.component';
-import { ArticlesListComponent } from './components/articles-list/articles-list.component';
-import { ArticleComponent } from './components/article/article.component';
-import { PopularTagsListComponent } from './components/popular-tags-list/popular-tags-list.component';
+import { SharedModule } from "./shared/shared.module";
 
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatGridListModule } from '@angular/material/grid-list';
-import { MatChipsModule } from '@angular/material/chips';
-import { DragDropModule } from '@angular/cdk/drag-drop';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
+import { AuthModule } from "./auth/auth.module";
+import { ArticleModule } from "./article/article.module";
+import { CommentModule } from "./comment/comment.module";
 
-import { ArticlesService } from "./services/articles.service";
-import { UserAccountComponent } from './components/user-account/user-account.component';
-import { CreateArticleComponent } from './components/create-article/create-article.component';
-import { HomeComponent } from './components/home/home.component';
+import { AppComponent } from './app.component';
+import { HomeComponent } from './home/home.component';
+import { UserAccountComponent } from './user-account/user-account.component';
+
+import { HeaderComponent } from './header/header.component';
+import { PopularTagsListComponent } from './popular-tags-list/popular-tags-list.component';
+
+import { CustomErrorHandler } from "../utils/error.handler";
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    ArticlesListComponent,
-    ArticleComponent,
     PopularTagsListComponent,
     UserAccountComponent,
-    CreateArticleComponent,
-    HomeComponent
+    HomeComponent,
+    HomeComponent,
   ],
   imports: [
-    BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatButtonModule,
-    MatCardModule,
-    MatGridListModule,
-    MatChipsModule,
-    DragDropModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule
+    SharedModule,
+    AuthModule,
+    ArticleModule,
+    CommentModule
   ],
-  providers: [ArticlesService, DatePipe],
-  bootstrap: [AppComponent]
+  providers: [ { provide: ErrorHandler, useClass: CustomErrorHandler } ],
+  bootstrap: [ AppComponent ]
 })
-export class AppModule { }
+export class AppModule {}

@@ -1,0 +1,5 @@
+@import "../../../utils/mixins";
+
+app-comments-list {
+  @include scrollbar;
+}
