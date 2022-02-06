@@ -1,0 +1,32 @@
+@import "../../../utils/mixins";
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+.add-picture-button {
+  margin-bottom: 0.75rem;
+}
+
+.remark {
+  display: flex;
+  align-items: center;
+}
+
+.remark--text {
+  @include remark;
+
+  font-size: 0.75rem;
+}
+
+.remark--icon {
+  color: gray;
+  font-weight: 300;
+  cursor: pointer;
+}
+
+.cancel-button {
+  margin-left: 1rem;
+}
+

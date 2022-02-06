@@ -1,2 +1,9 @@
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+body { margin: 0; }
+
+* { font-family: 'Work Sans', sans-serif; letter-spacing: 1px; }
+
+.custom-dialog-container .mat-dialog-container {
+  overflow: hidden;
+}

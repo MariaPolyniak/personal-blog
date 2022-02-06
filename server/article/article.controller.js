@@ -10,13 +10,13 @@ const likeRepository = require('../like/like.repository');
 const { normalizeTags } = require('../tag/tag.helper');
 
 exports.createArticle = async (req, res) => {
-  const userId = req.user.user_id;
-  let { title, content, tags } = req.body;
-  const avatarId = req.file?.filename;
-
-  tags = normalizeTags(tags);
-
   try {
+    const userId = req.user.user_id;
+    let { title, content, tags } = req.body;
+    const avatarId = req.file?.filename;
+
+    tags = normalizeTags(tags);
+
     const article = await articleRepository.insertArticle(userId, title, content, tags, avatarId);
 
     await tagRepository.insertOrUpdateTags(tags, article._id);
@@ -38,27 +38,28 @@ exports.getArticle = async(req, res) => {
 }
 
 exports.getArticles = async (req, res) => {
-  const match = {};
-  const sort = {};
-
-  const limit = req.query.limit || 10;
-  const skip = req.query.skip || 0;
-
   try {
+    const match = {};
+
+    const limit = +req.query.limit || 10;
+    const skip = +req.query.skip - 1 || 0;
+
     const userId = req.user.user_id;
 
     if(req.query.tag_name) {
       match.tags = { $in: [req.query.tag_name] }
     }
 
-    if(req.query.sortBy){
-      const [field, order] =  req.query.sortBy.split(':');
-      sort[field] = order === 'desc' ? -1 : 1;
+    const articles = await articleRepository.findArticles(match, limit, skip, userId);
+
+    const response = {
+      data: articles,
+      pageSize: limit,
+      pageIndex: skip,
+      total: articles.length
     }
 
-    const articles = await articleRepository.findArticles(match, limit, skip, sort, userId);
-
-    res.json(articles);
+    res.json(response);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }

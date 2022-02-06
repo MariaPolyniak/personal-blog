@@ -3,7 +3,7 @@ const { ObjectId } = require("mongodb");
 const TagModel = require("../tag/tag.model");
 
 const insertOrUpdateTags = (tags, articleId) => {
-  tags.forEach(async tagName => {
+  return tags.forEach(async tagName => {
     await TagModel.findOneAndUpdate(
       { name: tagName },
       {
@@ -37,7 +37,7 @@ const deleteArticleForMissingTags = async(updatedTags, articleId) => {
 }
 
 const deleteArticleForAllRelatedTags = articleId => {
-  TagModel.updateMany(
+  return TagModel.updateMany(
     { articles: ObjectId(articleId) },
     {
       $pull: { articles: ObjectId(articleId) }
@@ -46,7 +46,7 @@ const deleteArticleForAllRelatedTags = articleId => {
 }
 
 const deleteTagsWithoutArticles = () => {
-  TagModel.deleteMany(
+  return TagModel.deleteMany(
     {
       articles: { $eq: [] }
     }

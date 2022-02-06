@@ -1,0 +1,16 @@
+<mat-card *ngFor="let comment of (comments$ | async)">
+
+  <div class="comment-header">
+    <div>
+      <h3>{{ getCommentAuthor(comment) }}</h3>
+      <p>{{ comment.displayTime }}</p>
+    </div>
+
+    <mat-icon (click)="onCommentDelete(comment._id)">clear</mat-icon>
+  </div>
+
+  <mat-card-content>
+    <p>{{ comment.content }}</p>
+  </mat-card-content>
+
+</mat-card>

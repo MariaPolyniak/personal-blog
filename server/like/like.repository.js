@@ -9,7 +9,7 @@ const findLike = (user, article) => {
 }
 
 const deleteLike = (user, article) => {
-  LikeModel.deleteOne({ user, article });
+  return LikeModel.deleteOne({ user, article });
 }
 
 module.exports = {

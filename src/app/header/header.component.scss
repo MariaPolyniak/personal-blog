@@ -1,0 +1,33 @@
+@import "../../utils/mixins";
+
+:host {
+  position: fixed;
+  top: 0;
+
+  width: 100%;
+
+  z-index: 99;
+}
+
+.logo {
+  @include center;
+
+  .logo--image {
+    width: 2.5rem;
+    margin-right: 1rem;
+  }
+}
+
+.nav-link {
+  @include text-wide;
+  font-size: 1rem;
+
+  &:not(:last-child) {
+    margin-right: 1rem;
+  }
+}
+
+.menu-item {
+  @include text-wide;
+  font-weight: 500;
+}

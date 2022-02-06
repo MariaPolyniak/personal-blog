@@ -1,0 +1,40 @@
+@import "../../utils/mixins";
+
+.container {
+  width: 40vw;
+}
+
+.avatar {
+  background-size: cover;
+}
+
+.like-button {
+  padding: 0;
+}
+
+.full-content {
+  @include scrollbar;
+
+  max-height: 50vh;
+}
+
+.limited-content {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.spacer {
+  flex-grow: 1;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+mat-chip-list {
+  display: block;
+  margin-bottom: 1rem;
+}
+

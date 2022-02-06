@@ -1,18 +1,6 @@
 const commentRepository = require('../comment/comment.repository');
 const articleRepository = require('../article/article.repository');
 
-exports.getComments = async(req, res) => {
-  try {
-    const articleId = req.query['article-id'];
-
-    const comments = await commentRepository.findCommentByArticleId(articleId);
-
-    res.json(comments);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-}
-
 exports.createComment = async(req, res) => {
   try {
     const { author, article, content } = req.body;
@@ -22,6 +10,18 @@ exports.createComment = async(req, res) => {
     await articleRepository.addComment(req.body.article, comment._id);
 
     res.json(comment);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+}
+
+exports.getComments = async(req, res) => {
+  try {
+    const articleId = req.query['article-id'];
+
+    const comments = await commentRepository.findCommentByArticleId(articleId);
+
+    res.json(comments);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }

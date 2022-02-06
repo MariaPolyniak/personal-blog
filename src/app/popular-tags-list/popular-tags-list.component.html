@@ -1,0 +1,20 @@
+<mat-card>
+
+  <div class="header">
+    <h2>Popular tags</h2>
+    <mat-icon>local_fire_department</mat-icon>
+  </div>
+
+  <ng-container *ngIf="popularTags$ | async as popularTags">
+
+    <mat-chip-list *ngIf="popularTags.length !== 0; else placeholder">
+      <mat-chip *ngFor="let tag of popularTags">
+        {{ tag }}
+      </mat-chip>
+
+    </mat-chip-list>
+
+    <ng-template #placeholder class="placeholder">No tags added yet ...</ng-template>
+  </ng-container>
+
+</mat-card>

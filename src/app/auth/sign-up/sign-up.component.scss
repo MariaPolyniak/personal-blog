@@ -1,0 +1,37 @@
+@import "../../../utils/mixins";
+
+.container {
+  max-width: 400px;
+  margin: calc(0.5rem + 65px) auto 0;
+}
+
+mat-form-field {
+  display: block;
+
+  &:first-of-type {
+    margin-top: 0.5rem;
+  }
+}
+
+.add-avatar-button {
+  margin-bottom: 0.75rem;
+}
+
+.remark {
+  display: flex;
+  align-items: center;
+}
+
+.remark--text {
+  @include remark;
+
+  font-size: 0.75rem;
+}
+
+.remark--icon {
+  color: gray;
+  font-weight: 300;
+  cursor: pointer;
+}
+
+

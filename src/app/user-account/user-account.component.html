@@ -1,0 +1,6 @@
+<div *ngIf="user$ | async as user">
+  <h2>Hello, {{ user.firstName }} 👋</h2>
+
+  <img [src]="getAvatarUrl(user.avatarId)" alt="avatar">
+</div>
+

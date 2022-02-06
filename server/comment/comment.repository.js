@@ -1,7 +1,9 @@
 const CommentModel = require("./comment.model");
 
-const insertComment = (author, article, content) => {
-  return CommentModel.create({ author, article, content })
+const insertComment = async(author, article, content) => {
+  const comment = await CommentModel.create({ author, article, content });
+
+  return comment.populate('author');
 }
 
 const findCommentById = commentId => {
@@ -15,7 +17,7 @@ const findCommentByArticleId = articleId => {
 }
 
 const deleteComment = commentId => {
-  CommentModel.deleteOne({ _id: commentId });
+  return CommentModel.deleteOne({ _id: commentId });
 }
 
 module.exports = {

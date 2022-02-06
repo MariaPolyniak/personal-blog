@@ -1,0 +1,22 @@
+<div class="comment-editor">
+
+  <img *ngIf="(user$ | async).avatarId as id" mat-card-avatar [src]="getAvatarUrl(id)">
+
+  <mat-form-field appearance="fill">
+    <mat-label>Leave a comment</mat-label>
+
+    <textarea matInput #InputEl></textarea>
+  </mat-form-field>
+
+</div>
+
+<button
+  *ngIf="(user$ | async)._id as id"
+  (click)="onAddComment(id)"
+  type="submit"
+  mat-raised-button
+  color="primary"
+>
+  Add comment
+</button>
+

@@ -10,19 +10,16 @@ const findArticleById = articleId => {
   return ArticleModel.findById(articleId);
 }
 
-const findArticles = (match, limit, skip, sort, userId) => {
+const findArticles = (match, limit, skip, userId) => {
   return ArticleModel.aggregate([
     {
       $match: match
     },
     {
-      $limit: limit
-    },
-    {
       $skip: limit * skip
     },
     {
-      $sort: sort
+      $limit: limit
     },
     {
       $lookup: {
@@ -49,7 +46,7 @@ const findArticles = (match, limit, skip, sort, userId) => {
 }
 
 const updateArticle = (articleId, articleData) => {
-  ArticleModel.updateOne(
+  return ArticleModel.updateOne(
     { _id: ObjectId(articleId) },
     {
       $set: articleData
@@ -95,7 +92,7 @@ const addLike = (article, userId) => {
 }
 
 const deleteLike = (articleId, userId) => {
-  ArticleModel.updateOne(
+  return ArticleModel.updateOne(
     { _id: articleId },
     {
       $pull: {
@@ -105,7 +102,7 @@ const deleteLike = (articleId, userId) => {
 }
 
 const addComment = (articleId, commentId) => {
-  ArticleModel.findOneAndUpdate(
+  return ArticleModel.findOneAndUpdate(
     { _id: articleId },
     {
       $push: { comments: ObjectId(commentId) }
@@ -114,7 +111,7 @@ const addComment = (articleId, commentId) => {
 }
 
 const deleteComment = commentId => {
-  ArticleModel.findOneAndUpdate(
+  return ArticleModel.findOneAndUpdate(
     { comments: ObjectId(commentId) },
     {
       $pull: { comments: ObjectId(commentId) }

@@ -4,6 +4,8 @@ const tagController = require('./tag.controller');
 
 const tagRouter = express.Router();
 
-tagRouter.get('/popular', tagController.getPopularTags);
+const auth = require('../auth/auth.middleware');
+
+tagRouter.get('/popular', auth, tagController.getPopularTags);
 
 module.exports = tagRouter;
