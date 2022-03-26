@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { MatChipInputEvent } from '@angular/material/chips';
 
 import { ArticlesService } from "../../services/articles.service";
-import { UserService } from "../../services/user.service";
+import { AuthService } from "../../services/auth.service";
 
 @Component({
   selector: 'app-create-article',
@@ -40,7 +40,7 @@ export class CreateArticleComponent {
   constructor(
     private fb: FormBuilder,
     private articlesService: ArticlesService,
-    private userService: UserService,
+    private authService: AuthService,
     private router: Router
   ) {}
 

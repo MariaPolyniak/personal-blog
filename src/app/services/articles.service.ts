@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { of } from "rxjs";
-import { HttpClient, HttpHeaders } from '@angular/common/http'
 
-import { UserService } from "./user.service";
+import { environment } from "../../environments/environment";
 import { ArticleModel } from "../models/article.model";
 
 @Injectable({
@@ -10,23 +10,18 @@ import { ArticleModel } from "../models/article.model";
 })
 export class ArticlesService {
   popularTags$ = of([]);
-  headers = new HttpHeaders().set('User-ID', this.userService.getId());
 
-  constructor(private http: HttpClient, private userService: UserService) {}
+  constructor(private http: HttpClient) {}
 
   addArticle(articleDetails: Partial<ArticleModel>) {
-    return this.http.post<ArticleModel>('/api/articles', articleDetails, {
-      headers: this.headers
-    });
+    return this.http.post<ArticleModel>(`${environment.apiUrl}/articles`, articleDetails);
   }
 
   getArticles() {
-    return this.http.get<ArticleModel[]>('/api/articles');
+    return this.http.get<ArticleModel[]>(`${environment.apiUrl}/articles`);
   }
 
   likeArticle(articleId: string) {
-    return this.http.post<{ success: boolean }>(`/api/articles/${articleId}/like`, null, {
-      headers: this.headers
-    });
+    return this.http.post<{ success: boolean }>(`${environment.apiUrl}/articles/${articleId}/like`, null);
   }
 }

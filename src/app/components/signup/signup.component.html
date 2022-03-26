@@ -1,0 +1,50 @@
+<mat-card>
+  <mat-card-content>
+    <form #loginForm="ngForm" (ngSubmit)="onSubmit()">
+      <h2>Sign Up</h2>
+
+      <div>
+        Already registered? <a routerLink="/signIn">Sign in here!</a>
+      </div>
+
+      <mat-error *ngIf="!loginValid">
+        The login and password were not recognized
+      </mat-error>
+
+      <mat-form-field appearance="fill">
+        <mat-label>First name</mat-label>
+        <input matInput [(ngModel)]="firstName" name="firstName" required>
+        <mat-error>
+          Please provide a valid first name
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Last name</mat-label>
+        <input matInput [(ngModel)]="lastName" name="lastName" required>
+        <mat-error>
+          Please provide a valid last name
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Email</mat-label>
+        <input matInput placeholder="Email" [(ngModel)]="login" name="login" required>
+        <mat-error>
+          Please provide a valid email address
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" placeholder="Password" [(ngModel)]="password" name="password" required>
+        <mat-error>
+          Please provide a valid password
+        </mat-error>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" [disabled]="!loginForm.form.valid">Sign Up</button>
+    </form>
+  </mat-card-content>
+</mat-card>
+

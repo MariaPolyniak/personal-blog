@@ -4,7 +4,7 @@
 
   <img src="../../../assets/avatar.png" class="userAvatar" alt="user avatar"/>
 
-  <span class="userName">test_user</span>
+  <span class="userName">{{ article.author.firstName }} {{ article.author.lastName }}</span>
   <span class="date">{{ article.date | date:'longDate' }}</span>
 
   <button
