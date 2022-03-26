@@ -1,21 +1,21 @@
 const express = require('express');
 
-const postController = require('../controllers/article.controller');
+const articleController = require('../controllers/article.controller');
 
 const articleRouter = express.Router();
 
-articleRouter.post('/', postController.createNewArticle);
+articleRouter.post('/', articleController.createArticle);
 
-articleRouter.get('/', postController.getArticles);
+articleRouter.get('/', articleController.getArticles);
 
-articleRouter.get('/popular-articles', postController.getPopularArticles);
+articleRouter.get('/popular-articles', articleController.getPopularArticles);
 
-articleRouter.get('/:id', postController.getArticle);
+articleRouter.get('/:id', articleController.getArticle);
 
-articleRouter.patch('/:id', postController.updateArticle);
+articleRouter.patch('/:id', articleController.updateArticle);
 
-articleRouter.post('/:id/like', postController.likeArticle);
+articleRouter.post('/:id/like', articleController.likeArticle);
 
-articleRouter.delete('/:id', postController.deleteArticle);
+articleRouter.delete('/:id', articleController.deleteArticle);
 
 module.exports = articleRouter;
