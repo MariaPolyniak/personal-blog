@@ -1,4 +1,4 @@
-const ArticleModel = require('../models/article.model');
+const ArticleModel = require('./article.model');
 
 exports.getArticles = async (req, res) => {
   try {
@@ -8,7 +8,7 @@ exports.getArticles = async (req, res) => {
       articlesQuery = articlesQuery.where('tags').in(req.query.tag_id);
     }
 
-    const articles = await articlesQuery.populate('tags');
+    const articles = await articlesQuery.populate('tags').populate('author', 'firstName lastName');
 
     res.json(articles);
   } catch (err) {
